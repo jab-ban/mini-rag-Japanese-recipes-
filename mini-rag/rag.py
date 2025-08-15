@@ -16,7 +16,7 @@ api_key = os.getenv("GROQ_API_KEY")
 
 # Initialize LLM
 llm = ChatGroq(
-    model="qwen/qwen3-32b",
+    model="llama-3.1-8b-instant",
     temperature=0.4,
     max_tokens=2000
 )
@@ -27,7 +27,7 @@ vdb = Chroma(
     persist_directory="chroma_db",
     embedding_function=embedding_model
 )
-retriever = vdb.as_retriever(search_type="similarity", search_kwargs={"k": 1})
+retriever = vdb.as_retriever(search_type="similarity", search_kwargs={"k": 10})
 
 # Function to get recipe answer
 def get_recipe(user_input):
@@ -36,7 +36,17 @@ def get_recipe(user_input):
     docs_text = "\n".join([doc.page_content for doc in results])
 
     # Build prompt for LLM
-    prompt = f"You are a chef assistant. User asked: {user_input}\n\nRelevant recipes from DB:\n{docs_text}\n\nAnswer with the best recipe."
+    prompt = prompt =f"""
+        You are a chef assistant. User asked: {user_input}
+
+        Relevant recipes from DB:
+        {docs_text}
+
+        Instructions:   
+        - ONLY output the recipe exactly as it is from the database.
+        - Do NOT add any commentary, analysis, or extra text.
+        - Include title, ingredients, and steps clearly.  
+          """
     
     # Generate response
     response = llm.invoke(prompt)
@@ -56,4 +66,5 @@ while True:
         print(f"\nAnswer: {answer}\n")
 
         
+
 
