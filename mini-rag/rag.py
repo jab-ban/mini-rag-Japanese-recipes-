@@ -27,7 +27,7 @@ vdb = Chroma(
     persist_directory="chroma_db",
     embedding_function=embedding_model
 )
-retriever = vdb.as_retriever(search_type="similarity", search_kwargs={"k": 10})
+retriever = vdb.as_retriever(search_type="similarity", search_kwargs={"k": 5})
 
 # Function to get recipe answer
 def get_recipe(user_input):
@@ -66,5 +66,6 @@ while True:
         print(f"\nAnswer: {answer}\n")
 
         
+
 
 
