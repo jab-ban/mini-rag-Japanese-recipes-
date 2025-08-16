@@ -40,7 +40,7 @@ def get_recipe(user_input):
         You are a chef assistant. User asked: {user_input}
 
         Relevant recipes from DB:
-        {docs_text}
+        {docs_text} answer from the k's you returned
 
         Instructions:   
         - ONLY output the recipe exactly as it is from the database.
@@ -66,6 +66,7 @@ while True:
         print(f"\nAnswer: {answer}\n")
 
         
+
 
 
 
